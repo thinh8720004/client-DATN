@@ -89,71 +89,7 @@ const AboutPage = () => {
         </div>
       </div>
       <Services />
-      <div className="companyPartners">
-        <h5>Đối tác công ty</h5>
-        <Swiper
-          slidesPerView={1}
-          loop={true}
-          breakpoints={{
-            640: {
-              slidesPerView: 2,
-              spaceBetween: 5,
-            },
-
-            768: {
-              slidesPerView: 4,
-              spaceBetween: 40,
-            },
-
-            1024: {
-              slidesPerView: 5,
-              spaceBetween: 50,
-            },
-          }}
-          spaceBetween={10}
-          autoplay={{
-            delay: 2500,
-            disableOnInteraction: false,
-          }}
-          modules={[Autoplay]}
-        >
-          <SwiperSlide>
-            <div className="aboutBrands">
-              <img src={brand1} alt="" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="aboutBrands">
-              <img src={brand2} alt="" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="aboutBrands">
-              <img src={brand3} alt="" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="aboutBrands">
-              <img src={brand4} alt="" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="aboutBrands">
-              <img src={brand5} alt="" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="aboutBrands">
-              <img src={brand6} alt="" />
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className="aboutBrands">
-              <img src={brand7} alt="" />
-            </div>
-          </SwiperSlide>
-        </Swiper>
-      </div>
+     
     </>
   );
 };

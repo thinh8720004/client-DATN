@@ -62,7 +62,7 @@ const Product = ({ product }) => {
   const handleAddToCart = async () => {
     // check user login
     if (!localStorage.getItem("token")) {
-      toast.error(`Please login to add to cart!`, {
+      toast.error(`Vui lòng đăng nhập để mua hàng!`, {
         duration: 2000,
         style: {
           backgroundColor: "#ff0000",
@@ -100,7 +100,7 @@ const Product = ({ product }) => {
     };
     try {
       await dispatch(addToCart(productDetails)).unwrap();
-      toast.success(`Added to cart!`, {
+      toast.success(`Đã thêm vào giỏ hàng!`, {
         duration: 2000,
         style: {
           backgroundColor: "#07bc0c",

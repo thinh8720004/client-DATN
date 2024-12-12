@@ -7,6 +7,8 @@ const OrderTable = () => {
 
     const [orders, setOrders] = useState([]); // State lưu danh sách đơn hàng
     const [loading, setLoading] = useState(true); // State loading
+    const [currentPage, setCurrentPage] = useState(1); // Trạng thái trang hiện tại
+    const [resultsPerPage] = useState(5); // Số lượng đơn hàng hiển thị trên một trang
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -33,7 +35,16 @@ const OrderTable = () => {
         fetchOrders();
     }, [userInfo._id]);
 
-    console.log(orders)
+    // Xử lý phân trang: Tính toán các đơn hàng cần hiển thị trên trang hiện tại
+    const totalResults = orders.length;
+    const indexOfLastOrder = currentPage * resultsPerPage;
+    const indexOfFirstOrder = indexOfLastOrder - resultsPerPage;
+    const currentOrders = orders.slice(indexOfFirstOrder, indexOfLastOrder);
+
+    // Hàm chuyển trang
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
     if (loading) {
         return <p>Đang tải dữ liệu...</p>;
@@ -59,7 +70,7 @@ const OrderTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {orders.map((order) => (
+                    {currentOrders.map((order) => (
                         <tr key={order.invoice}>
                             <td>{order.invoice}</td>
                             <td>{new Date(order.createdAt).toLocaleString()}</td>
@@ -72,6 +83,23 @@ const OrderTable = () => {
                     ))}
                 </tbody>
             </table>
+
+            {/* Thêm phân trang ở dưới bảng */}
+            <div className="pagination">
+                <button 
+                    onClick={() => handlePageChange(currentPage - 1)} 
+                    disabled={currentPage === 1}
+                >
+                    Prev
+                </button>
+                <span>Page {currentPage} of {Math.ceil(totalResults / resultsPerPage)}</span>
+                <button 
+                    onClick={() => handlePageChange(currentPage + 1)} 
+                    disabled={currentPage === Math.ceil(totalResults / resultsPerPage)}
+                >
+                    Next
+                </button>
+            </div>
         </div>
     );
 };

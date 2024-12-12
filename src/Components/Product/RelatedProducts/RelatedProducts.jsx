@@ -10,10 +10,13 @@ import { FaStar } from "react-icons/fa";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRelatedProducts } from "../../../Features/Product/productSlice";
+import { toast } from "react-hot-toast";
+import { addToCart } from "../../../Features/Cart/cartSlice";
 
 const RelatedProducts = ({ productId }) => {
   const dispatch = useDispatch();
   const [wishList, setWishList] = useState({});
+  const [quantity] = useState(1); // Mặc định số lượng là 1
   const products = useSelector((state) => state.products.items);
 
   const handleWishlistClick = (productID) => {
@@ -38,6 +41,59 @@ const RelatedProducts = ({ productId }) => {
     if (!products || products.length === 0) return [];
     const shuffled = [...products].sort(() => 0.5 - Math.random());
     return shuffled.slice(0, count);
+  };
+
+  const handleAddToCart = async (product) => {
+    // Kiểm tra người dùng đã đăng nhập chưa
+    if (!localStorage.getItem("token")) {
+      toast.error(`Vui lòng đăng nhập để thêm vào giỏ hàng!`, {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff0000",
+          color: "white",
+        },
+        iconTheme: {
+          primary: "#fff",
+          secondary: "#ff0000",
+        },
+      });
+      return;
+    }
+
+    const productDetails = {
+      productId: product._id,
+      quantity: quantity,
+      price: product.prices.price
+        ? product.prices.price
+        : product.prices.originalPrice,
+    };
+    try {
+      await dispatch(addToCart(productDetails)).unwrap();
+      toast.success(`Đã thêm vào giỏ hàng!`, {
+        duration: 2000,
+        style: {
+          backgroundColor: "#07bc0c",
+          color: "white",
+        },
+        iconTheme: {
+          primary: "#fff",
+          secondary: "#07bc0c",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message, {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff0000",
+          color: "white",
+        },
+        iconTheme: {
+          primary: "#fff",
+          secondary: "#ff0000",
+        },
+      });
+    }
   };
 
   useEffect(() => {
@@ -121,18 +177,11 @@ const RelatedProducts = ({ productId }) => {
                       className="trendyProduct_back"
                     />
                   </Link>
-                  <h4>Thêm giỏ hàng</h4>
+                  <h4 onClick={() => handleAddToCart(product)}>Thêm giỏ hàng</h4>
                 </div>
                 <div className="relatedProductInfo">
                   <div className="rpCategoryWishlist">
                     <p>{product.category?.name || "Không có danh mục"}</p>
-                    {/* <FiHeart
-                      onClick={() => handleWishlistClick(product._id)}
-                      style={{
-                        color: wishList[product._id] ? "red" : "#767676",
-                        cursor: "pointer",
-                      }}
-                    /> */}
                   </div>
                   <div className="productNameInfo">
                     <h5 onClick={scrollToTop}>{product.title}</h5>

@@ -34,6 +34,7 @@ const ShopDetails = () => {
   const [searchParams] = useSearchParams();
   const searchText = searchParams.get("search") || "";
   const categories = useSelector((state) => state.categories.items);
+  const [quantity] = useState(1); // Mặc định số lượng là 1
 
   useEffect(() => {
     const categoryFromURL = searchParams.get("category"); // Get 'category' from query params
@@ -78,26 +79,33 @@ const ShopDetails = () => {
 
   const cartItems = useSelector((state) => state.cart.items);
   // popup them san pham
-  const handleAddToCart = (product) => {
-    const productInCart = cartItems.find(
-      (item) => item.productID === product.productID
-    );
-
-    if (productInCart && productInCart.quantity >= 20) {
-      toast.error("Product limit reached", {
+  const handleAddToCart = async (product) => {
+    // Kiểm tra người dùng đã đăng nhập chưa
+    if (!localStorage.getItem("token")) {
+      toast.error(`Vui lòng đăng nhập để thêm vào giỏ hàng!`, {
         duration: 2000,
         style: {
-          backgroundColor: "#ff4b4b",
+          backgroundColor: "#ff0000",
           color: "white",
         },
         iconTheme: {
           primary: "#fff",
-          secondary: "#ff4b4b",
+          secondary: "#ff0000",
         },
       });
-    } else {
-      dispatch(addToCart(product));
-      toast.success(`Added to cart!`, {
+      return;
+    }
+
+    const productDetails = {
+      productId: product._id,
+      quantity: quantity,
+      price: product.prices.price
+        ? product.prices.price
+        : product.prices.originalPrice,
+    };
+    try {
+      await dispatch(addToCart(productDetails)).unwrap();
+      toast.success(`Đã thêm vào giỏ hàng!`, {
         duration: 2000,
         style: {
           backgroundColor: "#07bc0c",
@@ -106,6 +114,19 @@ const ShopDetails = () => {
         iconTheme: {
           primary: "#fff",
           secondary: "#07bc0c",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message, {
+        duration: 2000,
+        style: {
+          backgroundColor: "#ff0000",
+          color: "white",
+        },
+        iconTheme: {
+          primary: "#fff",
+          secondary: "#ff0000",
         },
       });
     }
@@ -251,7 +272,7 @@ const ShopDetails = () => {
                           />
                         </div>
                         <div className="sdProductNameInfo">
-                          <Link to="/Product" onClick={scrollToTop}>
+                          <Link to={`/Product/${product._id}`} onClick={scrollToTop}>
                             <h5>{product.title}</h5>
                           </Link>
                           <p>

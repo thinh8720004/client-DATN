@@ -124,30 +124,30 @@ const Filter = ({ onCategoryChange, onPriceRangeChange, onSearchChange }) => {
             <h5 className="filterHeading">Giá</h5>
           </AccordionSummary>
           <AccordionDetails sx={{ padding: 0 }}>
-            <Slider
-              value={priceRange}
-              onChange={handlePriceRangeChange}
-              valueLabelDisplay="auto"
-              valueLabelFormat={(value) => `{value}`}
-              min={0}
-              max={2000000}
-              sx={{
-                color: "black",
-                "& .MuiSlider-thumb": {
-                  backgroundColor: "white",
-                  border: "2px solid black",
-                  width: 18,
-                  height: 18,
-                },
-              }}
-            />
+          <Slider
+  value={priceRange}
+  onChange={handlePriceRangeChange}
+  valueLabelDisplay="auto"
+  valueLabelFormat={(value) => `${value.toLocaleString()}đ`} // Định dạng giá trị thành chuỗi có đơn vị tiền tệ
+  min={0}
+  max={2000000}
+  sx={{
+    color: "black",
+    "& .MuiSlider-thumb": {
+      backgroundColor: "white",
+      border: "2px solid black",
+      width: 18,
+      height: 18,
+    },
+  }}
+/>
             <div className="filterSliderPrice">
               <div className="priceRange">
                 <p>
-                  Giá thấp nhất: <span>{priceRange[0]}đ</span>
+                  Giá thấp nhất: <span>{priceRange[0].toLocaleString()}đ</span>
                 </p>
                 <p>
-                  Giá cao nhất: <span>{priceRange[1]}đ</span>
+                  Giá cao nhất: <span>{priceRange[1].toLocaleString()}đ</span>
                 </p>
               </div>
             </div>
