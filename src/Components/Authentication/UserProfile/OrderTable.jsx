@@ -53,7 +53,6 @@ const OrderTable = () => {
     if (!orders.length) {
         return <p>Không có đơn hàng nào.</p>;
     }
-
     return (
         <div className="order-container">
             <h3 className="order-title">Danh sách đặt hàng của khách hàng</h3>
@@ -64,6 +63,7 @@ const OrderTable = () => {
                         <th>Thời gian</th>
                         <th>Địa chỉ</th>
                         <th>Số điện thoại</th>
+                        <th>Sản phẩm</th>
                         <th>Thanh toán</th>
                         <th>Tổng tiền</th>
                         <th>Trạng thái đơn hàng</th>
@@ -76,6 +76,13 @@ const OrderTable = () => {
                             <td>{new Date(order.createdAt).toLocaleString()}</td>
                             <td>{order.user_info.address}</td>
                             <td>{order.user_info.contact}</td>
+                            <td>
+                            {order.cart.map((item, index) => (
+                                <div key={index}>{item.id?.title} - Số lượng: {item.quantity}</div>
+                                
+                            ))}
+                            </td>
+                    
                             <td>{order.paymentStatus ? "Đã thanh toán" : "Chưa thanh toán"}</td>
                             <td>{order.total.toLocaleString()} VND</td>
                             <td>{order.status}</td>

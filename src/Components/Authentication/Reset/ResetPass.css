@@ -56,6 +56,22 @@
 .resetPasswordSection p a {
   color: black;
 }
+.auth-form input {
+  width: 100%;
+  padding: 12px 16px;
+  font-size: 16px; /* Font chữ to và dễ đọc */
+  border: 1px solid #ccc; /* Viền nhẹ */
+  border-radius: 8px; /* Bo góc */
+  background-color: #f9f9f9; /* Màu nền nhẹ */
+  color: #333; /* Màu chữ */
+  outline: none; /* Loại bỏ đường viền mặc định */
+  transition: all 0.3s ease-in-out; /* Hiệu ứng chuyển đổi */
+}
+
+/* Hiệu ứng khi hover vào input */
+.auth-form input:hover {
+  border-color: #2193b0; /* Đổi màu viền khi hover */
+}
 
 @media screen and (max-width: 450px) {
   .resetPasswordContainer {

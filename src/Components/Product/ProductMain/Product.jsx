@@ -185,6 +185,10 @@ const Product = ({ product }) => {
                   product?.prices?.price || product?.prices?.originalPrice
                 )}
               </h3>
+              <p>
+                <span>Tồn kho: </span>
+                {product?.stock || ""}
+              </p>
             </div>
             <div className="productDescription">
               <p>{product?.description}</p>
@@ -221,9 +225,17 @@ const Product = ({ product }) => {
                 <span>Quy cách: </span>{product?.sku || "Không xác định"}
               </p>
               <p>
+                <span>Đơn vị: </span>{product?.type || "Không xác định"}
+              </p>
+              <p>
                 <span>Thể loại: </span>
                 {product?.category?.name || "Không xác định"}
               </p>
+              <p>
+                <span>Ngày hết hạn: </span>
+                {product?.dateExpried || ""}
+              </p>
+              
             </div>
           </div>
         </div>

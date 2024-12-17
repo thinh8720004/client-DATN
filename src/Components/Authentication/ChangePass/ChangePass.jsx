@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios"; // Đảm bảo bạn đã cài axios nếu sử dụng
+import axios from "axios";
 import { Link } from "react-router-dom";
-import "../Reset/ResetPass.css";
+import { CircularProgress } from "@mui/material";
+import "./ChangePass.css"; // Assuming you use the same CSS as LoginSignUp
 
 const ChangePass = () => {
   const [email, setEmail] = useState("");
@@ -10,81 +11,112 @@ const ChangePass = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Kiểm tra xem mật khẩu mới và xác nhận mật khẩu có khớp không
     if (newPassword !== confirmPassword) {
       setError("Mật khẩu mới và xác nhận mật khẩu không khớp!");
+      setMessage("");
       return;
     }
 
-    // Gửi yêu cầu thay đổi mật khẩu đến backend
+    setLoading(true);
     try {
-      const response = await axios.post("http://localhost:3002/customer/change-password", {
-        email,
-        currentPassword,
-        newPassword,
-      });
+      const response = await axios.post(
+        "http://localhost:3002/customer/change-password",
+        { email, currentPassword, newPassword }
+      );
 
       if (response.data.status) {
         setMessage(response.data.message);
-        setError(""); // Xóa lỗi nếu có thông báo thành công
+        setError("");
       } else {
         setError(response.data.message);
-        setMessage(""); // Xóa thông báo thành công nếu có lỗi
+        setMessage("");
       }
     } catch (err) {
       setError("Đã xảy ra lỗi khi thay đổi mật khẩu.");
-      setMessage(""); // Xóa thông báo thành công nếu có lỗi
+      setMessage("");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div>
-      <div className="resetPasswordSection">
-        <h2>Thay đổi mật khẩu</h2>
-        <div className="resetPasswordContainer">
-          <p>Hãy thay đổi mật khẩu của bạn để tăng tính bảo mật</p>
-          <form onSubmit={handleSubmit}>
+    <div className="flex items-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md mx-auto bg-white rounded-lg shadow-lg p-6">
+        <h1 className="text-2xl font-bold text-gray-700 text-center mb-4">
+          Thay đổi mật khẩu
+        </h1>
+        {message && <p className="text-green-500 text-center">{message}</p>}
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="mb-4">
+            <label className="block text-gray-600">Email</label>
             <input
               type="email"
+              className="input-field"
               placeholder="Nhập email *"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-600">Mật khẩu cũ</label>
             <input
               type="password"
+              className="input-field"
               placeholder="Nhập mật khẩu cũ *"
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               required
             />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-600">Mật khẩu mới</label>
             <input
               type="password"
+              className="input-field"
               placeholder="Nhập mật khẩu mới *"
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
               required
             />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-600">Xác nhận mật khẩu mới</label>
             <input
               type="password"
+              className="input-field"
               placeholder="Xác thực mật khẩu mới *"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               required
             />
-            <button type="submit">Gửi</button>
-          </form>
-          {message && <p className="successMessage">{message}</p>}
-          {error && <p className="errorMessage">{error}</p>}
-        </div>
-        <p>
+          </div>
+          {loading ? (
+            <div className="flex justify-center">
+              <CircularProgress />
+            </div>
+          ) : (
+            <button
+              type="submit"
+              className="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
+            >
+              Gửi
+            </button>
+          )}
+        </form>
+        <p className="mt-6 text-center text-gray-600">
           Quay lại{" "}
-          <Link to="/loginSignUp">
-            <span>Đăng nhập</span>
+          <Link
+            to="/loginSignUp"
+            className="text-green-500 cursor-pointer hover:underline"
+          >
+            Đăng nhập
           </Link>
         </p>
       </div>

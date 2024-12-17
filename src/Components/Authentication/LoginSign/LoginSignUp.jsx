@@ -48,7 +48,7 @@ const LoginSignUp = () => {
         {authStatus === "succeeded" && (
           <p className="text-green-500 text-center">Thành công! Chuyển hướng ...</p>
         )}
-        <form onSubmit={isLogin ? handleLogin : handleSignup}>
+        <form onSubmit={isLogin ? handleLogin : handleSignup} className="auth-form">
           {!isLogin && (
             <div className="mb-4">
               <label className="block text-gray-600">Tên người dùng</label>

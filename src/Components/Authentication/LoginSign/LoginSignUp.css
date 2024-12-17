@@ -182,7 +182,7 @@
   font-weight: 500;
 }
 /* Styling chung cho input */
-input {
+.auth-form input {
   width: 100%;
   padding: 12px 16px;
   font-size: 16px; /* Font chữ to và dễ đọc */
@@ -195,22 +195,23 @@ input {
 }
 
 /* Hiệu ứng khi hover vào input */
-input:hover {
+.auth-form input:hover {
   border-color: #2193b0; /* Đổi màu viền khi hover */
 }
 
 /* Hiệu ứng khi focus vào input */
-input:focus {
+.auth-form input:focus {
   border-color: #2193b0; /* Đổi màu viền */
   box-shadow: 0 0 8px rgba(33, 147, 176, 0.3); /* Hiệu ứng sáng nhẹ */
   background-color: #fff; /* Đổi nền */
 }
 
 /* Placeholder styling (nếu có) */
-input::placeholder {
+.auth-form input::placeholder {
   color: #bbb; /* Màu placeholder nhạt */
   font-style: italic; /* Làm nổi bật placeholder */
 }
+
 
 
 /* Responsive Design */

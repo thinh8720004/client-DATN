@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   getCartItems,
@@ -16,18 +16,21 @@ import success from "../../Assets/success.png";
 import baseApi from "../../utils/api";
 
 const ShoppingCart = () => {
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  console.log(storedUser);
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const [activeTab, setActiveTab] = useState("cartTab1");
   const [payments, setPayments] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: "",
+    firstName: storedUser.name,
     lastName: "",
-    address: "",
+    address:  storedUser.address,
     city: "",
     postcode: "",
-    contact: "",
+    contact: storedUser.phone,
     email: "",
     orderNotes: "",
   });
@@ -38,18 +41,17 @@ const ShoppingCart = () => {
       setActiveTab(tab);
     }
   };
-  useEffect(() => {
-    dispatch(getCartItems());
-  }, [dispatch]);
+  
 
   const handleQuantityChange = (productId, quantity) => {
     if (quantity >= 1 && quantity <= 100) {
-      // dispatch(updateQuantity({ productId, quantity }));
-      dispatch(updateQuantity({ productId, quantity })).then(() => {
-        dispatch(getCartItems()); // Sau khi update xong thì gọi lại API để tải lại giỏ hàng
-      });
+      dispatch(updateQuantity({ productId, quantity }));
     }
   };
+  
+  useEffect(() => {
+    dispatch(getCartItems());
+  }, [dispatch]);
 
   const handleUpdateQuantity = (productId, newQuantity) => {
     dispatch(updateQuantity({ productId, newQuantity })).then(() => {
@@ -109,16 +111,22 @@ const ShoppingCart = () => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
+  const  isVietnamesePhoneNumberValid = (number) => {
+    return /(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/.test(number);
+  }
   // current Date
   const validateForm = () => {
     const errors = {};
-    if (!formData.firstName) errors.firstName = "First Name is required";
-    if (!formData.lastName) errors.lastName = "Last Name is required";
-    if (!formData.address) errors.address = "Street Address is required";
-    if (!formData.city) errors.city = "City is required";
-    if (!formData.postcode) errors.postcode = "Postcode is required";
-    if (!formData.contact) errors.contact = "Contact is required";
-    if (!formData.email) errors.email = "Email is required";
+    if (!formData.firstName) errors.firstName = "Tên là bắt buộc";
+    // if (!formData.lastName) errors.lastName = "Last Name is required";
+    if (!formData.address) errors.address = "Địa chỉ đường phố là bắt buộc";
+    // if (!formData.city) errors.city = "City is required";
+    // if (!formData.postcode) errors.postcode = "Postcode is required";
+    if (!formData.contact) errors.contact = "Cần phải liên hệ";
+    // if (!formData.email) errors.email = "Email is required";
+    if(!isVietnamesePhoneNumberValid(formData.contact)){
+      errors.contact = "Số điện thoại không hợp lệ";
+    }
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
@@ -140,9 +148,12 @@ const ShoppingCart = () => {
   const handlePaymentChange = (e) => {
     setSelectedPayment(e.target.value);
   };
-
+  const ProductTitle = React.memo(({ title }) => {
+    return <h4>{title}</h4>;
+  });
   return (
     <div>
+      
       <div className="shoppingCartSection">
         <h2>Giỏ hàng</h2>
 
@@ -201,6 +212,7 @@ const ShoppingCart = () => {
               <div className="shoppingBagSection">
                 <div className="shoppingBagTableSection">
                   {/* For Desktop Devices */}
+                  
                   <table className="shoppingBagTable">
                     <thead>
                       <tr>
@@ -218,7 +230,7 @@ const ShoppingCart = () => {
                           <tr key={index}>
                             <td data-label="Product">
                               <div className="shoppingBagTableImg">
-                                <Link
+                                <Link 
                                   to={`/Product/${item?.product?._id}`}
                                   onClick={scrollToTop}
                                 >
@@ -238,9 +250,9 @@ const ShoppingCart = () => {
                               <div className="shoppingBagTableProductDetail">
                                 <Link
                                   to={`/Product/${item?.product?._id}`}
-                                  onClick={scrollToTop}
+                                  
                                 >
-                                  <h4>{item?.product?.title}</h4>
+                                  <ProductTitle title={item?.product?.title} />
                                 </Link>
                               </div>
                             </td>
@@ -258,6 +270,7 @@ const ShoppingCart = () => {
                               )}
                             </td>
                             <td data-label="Quantity">
+                             
                               <div className="productQuantity">
                                 <button
                                   onClick={() =>
@@ -361,7 +374,7 @@ const ShoppingCart = () => {
                                   </Link>
                                   <p>{item.productReviews}</p>
                                   <div className="shoppingBagTableMobileQuantity">
-                                    <button
+                                    {/* <button
                                       onClick={() =>
                                         handleQuantityChange(
                                           item.productID,
@@ -392,7 +405,7 @@ const ShoppingCart = () => {
                                       }
                                     >
                                       +
-                                    </button>
+                                    </button> */}
                                   </div>
                                   <span>${item.productPrice}</span>
                                 </div>
@@ -493,7 +506,7 @@ const ShoppingCart = () => {
                     <h4>Thông tin đặt hàng</h4>
                     <div className="checkoutDetailsForm">
                       <div className="form">
-                        <div className="checkoutDetailsFormRow">
+                        {/* <div className="checkoutDetailsFormRow"> */}
                           <input
                             type="text"
                             name="firstName"
@@ -504,7 +517,7 @@ const ShoppingCart = () => {
                           {formErrors.firstName && (
                             <p className="error">{formErrors.firstName}</p>
                           )}
-                          <input
+                          {/* <input
                             type="text"
                             name="lastName"
                             placeholder="Nhập họ ..."
@@ -513,8 +526,8 @@ const ShoppingCart = () => {
                           />
                           {formErrors.lastName && (
                             <p className="error">{formErrors.lastName}</p>
-                          )}
-                        </div>
+                          )} */}
+                        {/* </div> */}
 
                         <input
                           type="text"
@@ -526,7 +539,7 @@ const ShoppingCart = () => {
                         {formErrors.address && (
                           <p className="error">{formErrors.address}</p>
                         )}
-                        <input
+                        {/* <input
                           type="text"
                           name="city"
                           placeholder="Nhập thành phố / thị trấn ..."
@@ -545,7 +558,7 @@ const ShoppingCart = () => {
                         />
                         {formErrors.postcode && (
                           <p className="error">{formErrors.postcode}</p>
-                        )}
+                        )} */}
                         <input
                           type="text"
                           name="contact"
@@ -556,7 +569,7 @@ const ShoppingCart = () => {
                         {formErrors.contact && (
                           <p className="error">{formErrors.contact}</p>
                         )}
-                        <input
+                        {/* <input
                           type="mail"
                           name="email"
                           placeholder="Nhập email ..."
@@ -565,7 +578,7 @@ const ShoppingCart = () => {
                         />
                         {formErrors.email && (
                           <p className="error">{formErrors.email}</p>
-                        )}
+                        )} */}
                         <textarea
                           cols={30}
                           rows={8}
@@ -776,6 +789,9 @@ const ShoppingCart = () => {
                                 currency: "VND",
                               }).format(totalPrice || 0)}
                             </td>
+                          </tr>
+                          <tr>
+                            <td style={{color: "red"}}>Nếu muốn hủy đơn hàng hãy liên hệ Admin</td>
                           </tr>
                         </tbody>
                       </table>

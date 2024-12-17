@@ -13,9 +13,15 @@ const UserProfile = () => {
     const { name, value } = e.target;
     setUserInfo({ ...userInfo, [name]: value });
   };
-
+  const  isVietnamesePhoneNumberValid = (number) => {
+    return /(((\+|)84)|0)(3|5|7|8|9)+([0-9]{8})\b/.test(number);
+  }
   const handleSave = async () => {
     try {
+      if(!isVietnamesePhoneNumberValid(userInfo.phone)){
+        toast.error("Số điện thoại không hợp lệ");
+        return;
+      }
       const response = await axios.put(
         `http://localhost:3002/customer/${userInfo._id}`,
         userInfo

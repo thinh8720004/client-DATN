@@ -1,0 +1,244 @@
+/* General Section */
+.loginSignUpSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #6dd5ed, #2193b0); /* Gradient background */
+  }
+  
+  .loginSignUpContainer {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1); /* Soft shadow */
+    padding: 40px 30px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Tabs Section */
+  .loginSignUpTabs {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+  }
+  
+  .loginSignUpTabs p {
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 18px;
+    font-weight: 700;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+    color: #6c757d;
+  }
+  
+  .loginSignUpTabs p:hover,
+  .loginSignUpTabs p.active {
+    color: #2193b0;
+    border-bottom: 3px solid #2193b0; /* Active indicator */
+  }
+  
+  /* Login Form Section */
+  .loginSignUpTabsContentLogin form,
+  .loginSignUpTabsContentRegister form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  .loginSignUpTabsContentLogin form input,
+  .loginSignUpTabsContentRegister input {
+    width: 100%;
+    padding: 14px;
+    margin-top: 8px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    transition: border-color 0.3s ease-in-out;
+  }
+  
+  .loginSignUpTabsContentLogin form input:focus,
+  .loginSignUpTabsContentRegister input:focus {
+    border-color: #2193b0;
+    box-shadow: 0 0 8px rgba(33, 147, 176, 0.4); /* Glow effect */
+  }
+  
+  /* Buttons */
+  .loginSignUpTabsContentLogin button,
+  .loginSignUpTabsContentRegister button {
+    width: 100%;
+    padding: 14px;
+    background-color: #2193b0;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 8px;
+    border: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  
+  .loginSignUpTabsContentLogin button:hover,
+  .loginSignUpTabsContentRegister button:hover {
+    background-color: #176482;
+  }
+  
+  /* Social Buttons */
+  .btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .btn-social.bg-blue-600 {
+    background-color: #1877f2;
+  }
+  
+  .btn-social.bg-red-500 {
+    background-color: #db4437;
+  }
+  
+  .btn-social:hover {
+    transform: scale(1.05); /* Slight scaling effect */
+  }
+  
+  /* Forget Password Section */
+  .loginSignUpForgetPass {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 10px;
+  }
+  
+  .loginSignUpForgetPass label {
+    display: flex;
+    align-items: center;
+  }
+  
+  .loginSignUpForgetPass a {
+    font-size: 14px;
+    color: #2193b0;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  
+  .loginSignUpForgetPass label input {
+    appearance: none;
+    border: 2px solid #e4e4e4;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    padding: 6px;
+    border-radius: 50%;
+  }
+  
+  .loginSignUpForgetPass label input:checked {
+    border: 2px solid #2193b0;
+  }
+  
+  .loginSignUpForgetPass label input::after {
+    content: "";
+    display: block;
+    width: 8px;
+    height: 8px;
+    background-color: #2193b0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .loginSignUpForgetPass label input:checked::after {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  
+  /* Text Section */
+  .loginSignUpTabsContentLoginText p,
+  .loginSignUpTabsContentRegister p {
+    font-size: 14px;
+    text-align: center;
+    color: #767676;
+  }
+  
+  .loginSignUpTabsContentLoginText p span,
+  .loginSignUpTabsContentRegister p span {
+    color: #2193b0;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 500;
+  }
+  /* Styling chung cho input */
+  .auth-form input {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 16px; /* Font chữ to và dễ đọc */
+    border: 1px solid #ccc; /* Viền nhẹ */
+    border-radius: 8px; /* Bo góc */
+    background-color: #f9f9f9; /* Màu nền nhẹ */
+    color: #333; /* Màu chữ */
+    outline: none; /* Loại bỏ đường viền mặc định */
+    transition: all 0.3s ease-in-out; /* Hiệu ứng chuyển đổi */
+  }
+  
+  /* Hiệu ứng khi hover vào input */
+  .auth-form input:hover {
+    border-color: #2193b0; /* Đổi màu viền khi hover */
+  }
+  
+  /* Hiệu ứng khi focus vào input */
+  .auth-form input:focus {
+    border-color: #2193b0; /* Đổi màu viền */
+    box-shadow: 0 0 8px rgba(33, 147, 176, 0.3); /* Hiệu ứng sáng nhẹ */
+    background-color: #fff; /* Đổi nền */
+  }
+  
+  /* Placeholder styling (nếu có) */
+  .auth-form input::placeholder {
+    color: #bbb; /* Màu placeholder nhạt */
+    font-style: italic; /* Làm nổi bật placeholder */
+  }
+  
+  
+  
+  /* Responsive Design */
+  @media screen and (max-width: 768px) {
+    .loginSignUpContainer {
+      padding: 20px;
+    }
+  
+    .loginSignUpTabsContentLogin form,
+    .loginSignUpTabsContentRegister form {
+      width: 100%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .loginSignUpTabs p {
+      font-size: 14px;
+    }
+  
+    .loginSignUpTabsContentLogin form input,
+    .loginSignUpTabsContentRegister input {
+      padding: 12px;
+    }
+  
+    .loginSignUpTabsContentLogin button,
+    .loginSignUpTabsContentRegister button {
+      padding: 12px;
+    }
+  }
+  

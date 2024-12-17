@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import baseApi from "../../utils/api";
+import { toast } from "react-hot-toast";
 
 const initialState = {
   items: [],
@@ -28,9 +29,9 @@ export const updateQuantity = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await baseApi.put("/cart/update", data);
-      console.log(response.data);
       return response.data;
     } catch (error) {
+      toast.error(error.response.data.message);
       return rejectWithValue(error.response.data);
     }
   }

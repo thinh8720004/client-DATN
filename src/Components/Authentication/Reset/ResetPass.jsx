@@ -41,7 +41,7 @@ const ResetPass = () => {
               <p className="mb-6 text-gray-600">
                 Chúng tôi sẽ gửi cho bạn một email để đặt lại mật khẩu của bạn.
               </p>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className="auth-form">
                 <div className="mb-4">
                   <label
                     htmlFor="email"
@@ -49,7 +49,7 @@ const ResetPass = () => {
                   >
                     Email
                   </label>
-                  <input
+                  <input 
                     type="email"
                     id="email"
                     className="block w-full mt-1 text-sm border-gray-300 bg-gray-100 text-gray-900 form-input"
